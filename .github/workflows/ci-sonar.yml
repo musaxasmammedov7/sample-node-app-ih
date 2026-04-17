@@ -34,18 +34,16 @@ jobs:
          npm run build 2>/dev/null || echo "No build script found, skipping build step"
 
      - name: Run unit tests with coverage and JUnit reports
-       env:
-         JEST_JUNIT_OUTPUT: coverage/junit.xml
-       run: npm run test:ci
+       run: |
+         mkdir -p reports/junit
+         npm run test:ci
 
      - name: Publish test results to Checks
-       uses: dorny/test-reporter@v1
+       uses: EnricoMi/publish-unit-test-result-action@v2
        if: always()
        with:
-         name: Jest Test Results
-         path: coverage/junit.xml
-         reporter: jest-junit
-         fail-on-error: true
+         files: reports/junit/junit.xml
+         comment_mode: off
 
      - name: Upload test results to GitHub
        uses: actions/upload-artifact@v4
