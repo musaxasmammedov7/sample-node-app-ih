@@ -32,7 +32,6 @@ jobs:
      - name: Build the application (optional)
        run: |
          npm run build 2>/dev/null || echo "No build script found, skipping build step"
-
      - name: Run unit tests with coverage and JUnit reports
        run: |
          mkdir -p reports/junit
@@ -42,7 +41,7 @@ jobs:
        uses: EnricoMi/publish-unit-test-result-action@v2
        if: always()
        with:
-         files: reports/junit/junit.xml
+         files: junit.xml          # ← теперь в корне
          comment_mode: off
 
      - name: Upload test results to GitHub
